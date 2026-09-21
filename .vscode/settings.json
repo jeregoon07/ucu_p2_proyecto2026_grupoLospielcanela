@@ -1,0 +1,24 @@
+{
+    "cSpell.enabled": true,
+    "cSpell.language": "en,es",
+    "cSpell.words": [
+        "buildtransitive",
+        "contentfiles",
+        "dotnet",
+        "Doxify",
+        "Doxyfile",
+        "github",
+        "LINQ",
+        "Liskov",
+        "msbuild",
+        "nunit",
+        "preconfiguradas",
+        "Pseudocódigo",
+        "stylecop",
+    ],
+    "dotnet.defaultSolution": "ProjectTemplate.sln",
+    "github.copilot.enable": {
+        "*": false
+    },
+    "githubPullRequests.codingAgent.codeLens": false,
+}
