@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 
 using System;
-using Library;
+using System.Threading.Tasks;
 
 namespace Project
 {
@@ -19,9 +19,17 @@ namespace Project
         /// </summary>
         public static void Main()
         {
-            Train train = new Train();
-            train.StartEngines();
-            Console.WriteLine("Hello World!");
+            MainAsync().GetAwaiter().GetResult();
         }
+
+        private static async Task MainAsync()
+        {
+            using (var bot = new BotService())
+            {
+            // Token genérico para el código base; el token real estará en tu appsettings local
+            string token = "TOKEN_AQUI"; 
+            await bot.IniciarAsync(token).ConfigureAwait(false);
+            }
+        }   
     }
 }
