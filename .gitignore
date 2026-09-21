@@ -491,3 +491,4 @@ $RECYCLE.BIN/
 
 # Doxygen generated files
 /docs/html/
+src/Program/appsettings.json
