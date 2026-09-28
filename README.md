@@ -98,3 +98,82 @@ La estructura principal del proyecto es:
 src/
 ├── Program/
 └── Library/
+```
+---
+
+# Trello
+link del trello
+
+Tablero de Trello del proyecto
+
+Organización del tablero
+
+El tablero de Trello se organiza en las siguientes columnas:
+
+TODO: tareas pendientes de realizar.
+WIP: tareas que se encuentran actualmente en progreso.
+DONE: tareas finalizadas.
+
+Cada tarea incluye:
+
+Responsable.
+Fecha prevista de finalización.
+Distribución de tareas
+
+Integrante	Tarea / responsabilidad
+Jeremías González	______________________________
+Tamara Flores	______________________________
+Luis Orlando Cartagena	______________________________
+Lautaro Pereira Das Neves	______________________________
+Reflexiones del equipo:
+
+--- 
+
+# Desafíos encontrados
+
+Uno de los principales desafíos durante el desarrollo fue
+______________________________________________________________.
+
+También encontramos dificultades relacionadas con
+______________________________________________________________.
+
+Aprendizajes
+
+Durante el proyecto aprendimos _____________________________________
+______________________________________________________________.
+
+Además, pudimos profundizar nuestros conocimientos sobre
+______________________________________________________________.
+
+---
+
+# Recursos utilizados
+
+Para resolver los diferentes desafíos utilizamos los siguientes
+recursos:
+
+## Otras observaciones
+
+## Tecnologías utilizadas
+
+C#
+.NET
+Visual Studio Code
+Git
+GitHub
+Trello
+UML
+
+---
+
+# Estado del proyecto
+
+Componente	Estado
+Historias de usuario	☐ Pendiente / ☐ En progreso / ☐ Terminado
+Tarjetas CRC	☐ Pendiente / ☐ En progreso / ☐ Terminado
+Diagrama UML	☐ Pendiente / ☐ En progreso / ☐ Terminado
+Clases de dominio	☐ Pendiente / ☐ En progreso / ☐ Terminado
+Pruebas unitarias	☐ Pendiente / ☐ En progreso / ☐ Terminado
+Trello	☐ Pendiente / ☐ En progreso / ☐ Terminado
+README	☐ Pendiente / ☐ En progreso / ☐ Terminado
+
