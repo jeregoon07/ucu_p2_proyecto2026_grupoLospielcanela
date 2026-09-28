@@ -1,100 +1,100 @@
-<!-- markdownlint-disable MD033 -->
-<!-- markdownlint-disable-next-line MD041 -->
-<img alt="UCU" src="https://www.ucu.edu.uy/plantillas/images/logo_ucu.svg"
-width="150"/>
-
 # Universidad Católica del Uruguay
 
-## Programación II
+## Facultad de Ingeniería y Tecnologías
 
-# Plantilla de Proyecto
+### Programación II
 
-## Descripción
+# Proyecto 2026
 
-Esta plantilla proporciona una estructura base para los proyectos de
-Programación II. Incluye la configuración necesaria para desarrollar
-aplicaciones en C# con buenas prácticas de programación, pruebas automatizadas y
-documentación.
 
-¿Qué hay configurado en esta plantilla?
+CHATBOT
 
-1. Un proyecto de biblioteca (creado con [`dotnet new classlib --name
-   Library`](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new?tabs=netcore22))
-   en la carpeta `src\Library`.
+## Integrantes
 
-2. Un proyecto de aplicación de consola, creado con [`dotnet new console --name
-   Program`](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new?tabs=netcore22),
-   en la carpeta `src\Program`.
+- Jeremías González
+- Tamara Flores
+- Luis Orlando Cartagena
+- Lautaro Pereira Das Neves
 
-3. Un proyecto de prueba en [NUnit](https://nunit.org/), creado con [`dotnet new
-   nunit --name
-   LibraryTests`](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new?tabs=netcore22),
-   en la carpeta `test\LibraryTests`.
+---
 
-4. Un proyecto de [Doxygen](https://www.doxygen.nl/index.html) para generación
-   de sitio web de documentación en la carpeta `docs`.
+# Descripción del proyecto
 
-5. Análisis estático con [Roslyn
-   analyzers](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview)
-   en los proyectos de biblioteca y de aplicación.
+Este proyecto consiste en desarrollar un sistema en Discord para automatizar la atención y la comunicación con los usuarios mediante un chatbot conversacional.
 
-6. Análisis de estilo con
-   [StyleCop](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/README.md)
-   en los proyectos de biblioteca y de aplicación.
+El sistema permitirá responder de forma automática, rápida y en cualquier momento a las consultas más frecuentes, guiar a los usuarios en distintos procesos y brindarles información de manera clara y sencilla a través de una interfaz de chat, y tendrá como objetivo reducir los tiempos de espera, disminuir la carga de trabajo de las personas que atienden de forma manual y mejorar la experiencia de quienes utilizan el servicio.
 
-7. Una solución `Project.sln` que referencia todos los proyectos de C# y
-   facilita la compilación con [`dotnet
-   build`](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-build).
+El problema que busca resolver es la dificultad de atender un gran volumen de consultas repetitivas de forma eficiente, ya que la atención tradicional suele ser lenta, limitada a ciertos horarios y dependiente de la disponibilidad de personal. La idea general del proyecto es ofrecer un asistente virtual accesible, fácil de usar y disponible las 24 horas, que pueda entender las preguntas de los usuarios, darles respuestas útiles y, cuando sea necesario, derivarlos a una persona para una atención más específica.
 
-8. Tareas preconfiguradas para ejecutar las pruebas con cobertura y generar
-   documentación desde VSCode en la carpeta `.vscode`.
+---
 
-9. Análisis de cobertura de los casos de prueba mediante los indicadores que
-   aparecen en los márgenes con el complemento de Visual Studio Code [Coverage
-   Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters).
+# Historias de usuario
 
-10. Ejecución automática de compilación y prueba mediante [GitHub
-    Actions](https://docs.github.com/en/actions) configuradas en el repositorio
-    al hacer [push](https://github.com/git-guides/git-push) o [pull
-    request](https://docs.github.com/en/github/collaborating-with-pull-requests).
+HU01 - Consulta de preguntas frecuentes
+Como usuario, quiero escribir mi pregunta en un chat y recibir una respuesta inmediata para resolver mis dudas sin tener que esperar a que me atienda una persona.
 
-Vean este 🎥
-[video](https://correoucuedu-my.sharepoint.com/:v:/r/personal/fmachado_ucu_edu_uy/Documents/Stream%20Migrated%20Videos/Demo%20Project%20Template-20211025_014904.mp4)
-que explica el funcionamiento de la plantilla.
+HU02 - Atención disponible en todo momento
+Como usuario, quiero poder usar el chatbot a cualquier hora del día para obtener información o ayuda sin depender de horarios de atención.
 
-## Convenciones de código
+HU03 - Guía en procesos y trámites
+Como usuario, quiero que el chatbot me guíe paso a paso en un proceso o gestión para completarlo correctamente sin cometer errores.
 
-[Convenciones de código en
-C#](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
+HU04 - Derivación a una persona
+Como usuario, quiero poder ser derivado a un agente humano cuando el chatbot no pueda responder mi consulta para recibir una atención más específica y personalizada.
 
-[Convenciones de nombres en
-C#](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines)
+HU05 - Conversación en lenguaje natural
+Como usuario, quiero escribir con mis propias palabras, sin usar comandos ni frases exactas, para que el chatbot entienda lo que necesito de forma natural.
 
-[C# Compiler Errors
-(CS*)](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/)
+HU06 - Gestión de consultas y estadísticas
+Como administrador, quiero ver un registro de las conversaciones y las preguntas más frecuentes para identificar qué información falta y mejorar el servicio.
 
-[Roslyn Analyzer Warnings
-(CA*)](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/categories)
+HU07 - Actualización de respuestas
+Como administrador, quiero poder agregar o modificar las preguntas y respuestas del chatbot para mantener la información siempre actualizada.
 
-[StyleCop Analyzer Warnings
-(SA*)](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/DOCUMENTATION.md)
+---
 
-Las violaciones a estas convenciones son reportadas como *warnings* al compilar.
-Aunque recomendamos corregir las violaciones, es posible omitir esta
-configuración de la siguiente forma:
+# Modelo del dominio
 
-Comentar las siguientes líneas en los archivos de proyecto (`*.csproj`)
+El modelo del dominio fue desarrollado a partir de las historias de
+usuario identificadas para el proyecto.
 
-```xml
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisMode>All</AnalysisMode>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-```
+Las principales clases identificadas para el dominio son:
 
-Comentar la línea `<PackageReference Include="StyleCop.Analyzers"
-Version="1.1.118"/>` en los archivos de proyecto (`*.csproj`)
+- Usuario: representa a la persona que interactúa con el chatbot para hacer consultas u obtener ayuda.
+- Administrador: representa a la persona encargada de gestionar el contenido del chatbot y revisar las estadísticas de uso.
+- Conversación: representa cada sesión de diálogo entre un usuario y el chatbot, e incluye su fecha, su estado y los mensajes intercambiados.
+- Mensaje: representa cada texto enviado, ya sea por el usuario o por el chatbot, dentro de una conversación.
+- PreguntaFrecuente: representa una pregunta con su respuesta asociada, que forma parte de la base de conocimiento del chatbot.
+- Derivación: representa el traspaso de una conversación a un agente humano cuando el chatbot no puede resolver la consulta.
 
-## Uso de ![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000?logo=githubcopilot&logoColor=fff)
+Estas clases permiten representar a las personas que participan en el sistema, el desarrollo de las conversaciones y la información que el chatbot utiliza para responder. De esta forma, el modelo cubre las funcionalidades principales del proyecto: responder consultas, guiar a los usuarios, derivarlos a una persona cuando sea necesario y mantener actualizada la información del sistema.
 
-Es posible usar GitHub Copilot en este repositorio. Consulta [cómo usar Copilot
-para aprender](./COPILOT.md).
+---
+
+# Diagrama de clases UML
+
+
+[Ver diagrama de clases](docs/diagrama-clases.png)
+
+
+---
+
+# Tarjetas CRC
+
+Las tarjetas CRC utilizadas para el modelado del dominio se encuentran
+en:
+
+[Ver tarjetas CRC](docs/tarjetas-crc.md)
+
+---
+
+# Código fuente
+
+El código fuente del proyecto se encuentra dentro de la carpeta `src/`.
+
+La estructura principal del proyecto es:
+
+```text
+src/
+├── Program/
+└── Library/
