@@ -55,19 +55,21 @@ Como administrador, quiero poder agregar o modificar las preguntas y respuestas 
 
 # Modelo del dominio
 
-El modelo del dominio fue desarrollado a partir de las historias de
-usuario identificadas para el proyecto.
+El modelo del dominio fue desarrollado a partir de las historias de usuario y requerimientos identificados para el proyecto de motor de recomendaciones.
 
-Las principales clases identificadas para el dominio son:
+Las principales entidades y componentes identificados para el dominio son:
 
-- Usuario: representa a la persona que interactúa con el chatbot para hacer consultas u obtener ayuda.
-- Administrador: representa a la persona encargada de gestionar el contenido del chatbot y revisar las estadísticas de uso.
-- Conversación: representa cada sesión de diálogo entre un usuario y el chatbot, e incluye su fecha, su estado y los mensajes intercambiados.
-- Mensaje: representa cada texto enviado, ya sea por el usuario o por el chatbot, dentro de una conversación.
-- PreguntaFrecuente: representa una pregunta con su respuesta asociada, que forma parte de la base de conocimiento del chatbot.
-- Derivación: representa el traspaso de una conversación a un agente humano cuando el chatbot no puede resolver la consulta.
+- **SistemaFachada:** punto de entrada unificado que coordina la interacción del sistema (como el Bot o suites de prueba) con la lógica interna de usuarios, catálogo y recomendaciones.
+- **MotorRecomendacion:** componente central encargado de aplicar estrategias de recomendación, ejecutar filtros y ordenar los ítems sugeridos.
+- **Usuario:** representa a la persona en el sistema, gestionando sus datos de cuenta, historial de interacciones, contenido guardado y preferencias.
+- **Cancion:** entidad concreta del catálogo que representa los contenidos musicales e implementa la interfaz `IRecomendable`.
+- **Catalogo:** representa la colección global de contenidos (`IRecomendable`), permitiendo la administración, altas/bajas y búsquedas de ítems.
+- **Interaccion:** registra los consumos y valoraciones explícitas de los usuarios sobre los contenidos del catálogo.
+- **Preferencia:** representa los atributos de interés específicos configurados por un usuario.
+- **Estrategias de Recomendación (`IRecomendadorStrategy`):** algoritmos intercambiables en tiempo de ejecución para generar sugerencias según distintas métricas (`EstrategiaPreferencia`, `EstrategiaHistorial`, `EstrategiaUsuarioSimilares`, `EstrategiaPopularidad` y `EstrategiaRelacionados`).
+- **FiltroRecomendacion y CriterioOrden:** componentes encargados de excluir contenidos ya consumidos o no deseados, así como de aplicar el criterio final de ordenamiento sobre las sugerencias.
 
-Estas clases permiten representar a las personas que participan en el sistema, el desarrollo de las conversaciones y la información que el chatbot utiliza para responder. De esta forma, el modelo cubre las funcionalidades principales del proyecto: responder consultas, guiar a los usuarios, derivarlos a una persona cuando sea necesario y mantener actualizada la información del sistema.
+Estas clases permiten desacoplar la lógica interna del sistema de las interfaces de usuario, permitiendo evaluar, puntuar y ofrecer recomendaciones personalizadas basadas en el comportamiento, preferencias e historial del usuario.
 
 ---
 
