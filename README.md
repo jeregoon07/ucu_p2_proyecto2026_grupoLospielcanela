@@ -74,7 +74,8 @@ Estas clases permiten representar a las personas que participan en el sistema, e
 # Diagrama de clases UML
 
 
-[Ver diagrama de clases](docs/diagrama-clases.png)
+
+![Diagrama UML](diagrama%20UML.png)
 
 
 ---
@@ -84,7 +85,10 @@ Estas clases permiten representar a las personas que participan en el sistema, e
 Las tarjetas CRC utilizadas para el modelado del dominio se encuentran
 en:
 
-[Ver tarjetas CRC](docs/tarjetas-crc.md)
+[📄 Ver Tarjetas CRC del Proyecto](Tarjetas%20CRC%20Proyecto.pdf)
+<object data="Tarjetas%20CRC%20Proyecto.pdf" type="application/pdf" width="100%" height="600px">
+    <p>Tu navegador no soporta la visualización de PDFs. Podés <a href="Tarjetas%20CRC%20Proyecto.pdf">descargarlo acá</a>.</p>
+</object>
 
 ---
 
