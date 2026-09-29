@@ -102,11 +102,10 @@ src/
 ---
 
 # Trello
-link del trello
+## Tablero de Trello del proyecto
+[Enlace del Trello](https://trello.com/invite/b/6aadc6b6105726661e304a73/ATTIc27f239217c77fc450d80ea0d097b4b79849C099/los-piel-canela)
 
-Tablero de Trello del proyecto
-
-Organización del tablero
+## Organización del tablero
 
 El tablero de Trello se organiza en las siguientes columnas:
 
@@ -120,10 +119,10 @@ Responsable.
 Fecha prevista de finalización.
 Distribución de tareas
 
-Integrante	Tarea / responsabilidad
+Integrantes y sus responsabilidades más importantes.
 Jeremías González	______________________________
 Tamara Flores	______________________________
-Luis Orlando Cartagena	______________________________
+Luis Orlando Cartagena	Tests unitarios.
 Lautaro Pereira Das Neves	______________________________
 Reflexiones del equipo:
 
