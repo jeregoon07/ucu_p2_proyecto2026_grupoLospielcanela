@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 namespace Project
 {
-    /// <summary>
-    /// Colaboradores: Usuario, Catalogo, MotorRecomendacion, Interaccion.
-    /// </summary>
+    
     public class SistemaFachada
     {
         private readonly Dictionary<string, Usuario> _usuarios;
@@ -19,9 +17,7 @@ namespace Project
             _motorRecomendacion = motorRecomendacion ?? throw new ArgumentNullException(nameof(motorRecomendacion));
         }
 
-        /// <summary>
-        /// Registra un nuevo usuario en el sistema.
-        /// </summary>
+        
         public Usuario RegistrarUsuario(string id, string nombre)
         {
             if (_usuarios.ContainsKey(id))
@@ -32,9 +28,7 @@ namespace Project
             return usuario;
         }
 
-        /// <summary>
-        /// Registra la interacción de un usuario con un ítem del catálogo
-        /// </summary>
+        
         public void RegistrarInteraccion(string usuarioId, string itemId, double? valoracion = null)
         {
             var usuario = ObtenerUsuario(usuarioId);
@@ -47,28 +41,21 @@ namespace Project
             usuario.RegistrarInteraccion(interaccion);
         }
 
-        /// <summary>
-        /// Actualiza las preferencias de contenido de un usuario.
-        /// </summary>
+        
         public void ActualizarPreferencias(string usuarioId, Preferencia preferencia)
         {
             var usuario = ObtenerUsuario(usuarioId);
             usuario.ActualizarPreferencia(preferencia);
         }
 
-        /// <summary>
-        /// Consulta el listado de recomendaciones para un usuario dado,
-        /// delegando el cálculo en el MotorRecomendacion.
-        /// </summary>
+        
         public List<IRecomendable> ObtenerRecomendaciones(string usuarioId)
         {
             var usuario = ObtenerUsuario(usuarioId);
             return _motorRecomendacion.Recomendar(usuario, _catalogo);
         }
 
-        /// <summary>
-        /// Guarda un ítem del catálogo en la lista de "ver más tarde" del usuario.
-        /// </summary>
+        
         public void GuardarParaMasTarde(string usuarioId, string itemId)
         {
             var usuario = ObtenerUsuario(usuarioId);
