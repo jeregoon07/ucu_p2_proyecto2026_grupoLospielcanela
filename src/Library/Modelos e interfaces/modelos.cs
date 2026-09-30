@@ -6,15 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Project
 {
-    public interface IRecomendable
-    {
-        string Id { get; }
-        string Nombre { get; }
-        IReadOnlyList<string> Atributos { get; }
-    }
+    
+
+
     public class Catalogo
     {
         private readonly Dictionary<string, IRecomendable> _items = new Dictionary<string, IRecomendable>();
