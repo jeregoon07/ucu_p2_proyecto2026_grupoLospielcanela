@@ -37,7 +37,7 @@ namespace Project
         }
         public List<string> ObtenerAtributoClave()
         {
-            return new List<string>{"artista", "genero", "categoria"};
+            return new List<string>{"artista", "genero", "categoriá"};
         }
 
     }
