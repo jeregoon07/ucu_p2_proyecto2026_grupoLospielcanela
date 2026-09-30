@@ -76,7 +76,8 @@ namespace Project
     {
         public string Id { get; private set; }
         public string Nombre { get; private set; }
-
+        public Preferencia Preferencia => _preferencia;
+        public IReadOnlyList<Interaccion> Interacciones => _interacciones.AsReadOnly();
         private Preferencia _preferencia;
         private readonly List<Interaccion> _interacciones;
         private readonly List<IRecomendable> _guardadosParaMasTarde;
