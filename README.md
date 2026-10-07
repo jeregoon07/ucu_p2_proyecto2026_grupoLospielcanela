@@ -20,11 +20,13 @@ CHATBOT
 
 # Descripción del proyecto
 
-Este proyecto consiste en desarrollar un sistema en Discord para automatizar la atención y la comunicación con los usuarios mediante un chatbot conversacional.
+Este proyecto consiste en desarrollar un sistema de recomendaciones de canciones que permita ofrecer contenido musical personalizado a los usuarios según sus preferencias, historial de interacciones y otros criterios.
 
-El sistema permitirá responder de forma automática, rápida y en cualquier momento a las consultas más frecuentes, guiar a los usuarios en distintos procesos y brindarles información de manera clara y sencilla a través de una interfaz de chat, y tendrá como objetivo reducir los tiempos de espera, disminuir la carga de trabajo de las personas que atienden de forma manual y mejorar la experiencia de quienes utilizan el servicio.
+El sistema permitirá consultar un catálogo de canciones, registrar las interacciones de los usuarios y generar recomendaciones utilizando diferentes estrategias. Estas recomendaciones podrán basarse en las preferencias del usuario, su historial, usuarios con gustos similares, la popularidad de las canciones o contenidos relacionados.
 
-El problema que busca resolver es la dificultad de atender un gran volumen de consultas repetitivas de forma eficiente, ya que la atención tradicional suele ser lenta, limitada a ciertos horarios y dependiente de la disponibilidad de personal. La idea general del proyecto es ofrecer un asistente virtual accesible, fácil de usar y disponible las 24 horas, que pueda entender las preguntas de los usuarios, darles respuestas útiles y, cuando sea necesario, derivarlos a una persona para una atención más específica.
+El problema que busca resolver es la dificultad de encontrar contenido musical que se adapte a los gustos de cada usuario dentro de un catálogo amplio. El sistema busca facilitar el descubrimiento de nuevas canciones mediante recomendaciones personalizadas y organizadas según diferentes criterios.
+
+Además, el sistema contará con filtros para evitar recomendar contenido que el usuario ya haya consumido o que no sea adecuado según sus preferencias, y permitirá ordenar las recomendaciones según distintos criterios.
 
 ---
 
@@ -33,23 +35,26 @@ El problema que busca resolver es la dificultad de atender un gran volumen de co
 HU01 - Consulta de preguntas frecuentes
 Como usuario, quiero escribir mi pregunta en un chat y recibir una respuesta inmediata para resolver mis dudas sin tener que esperar a que me atienda una persona.
 
-HU02 - Atención disponible en todo momento
-Como usuario, quiero poder usar el chatbot a cualquier hora del día para obtener información o ayuda sin depender de horarios de atención.
+HU01 - Consultar recomendaciones
+Como usuario, quiero recibir recomendaciones de canciones para descubrir contenido que pueda ser de mi interés.
 
-HU03 - Guía en procesos y trámites
-Como usuario, quiero que el chatbot me guíe paso a paso en un proceso o gestión para completarlo correctamente sin cometer errores.
+HU02 - Recomendaciones según preferencias
+Como usuario, quiero recibir recomendaciones basadas en mis preferencias para encontrar canciones acordes a mis gustos.
 
-HU04 - Derivación a una persona
-Como usuario, quiero poder ser derivado a un agente humano cuando el chatbot no pueda responder mi consulta para recibir una atención más específica y personalizada.
+HU03 - Recomendaciones según historial
+Como usuario, quiero recibir recomendaciones basadas en las canciones que escuché anteriormente para descubrir contenido similar.
 
-HU05 - Conversación en lenguaje natural
-Como usuario, quiero escribir con mis propias palabras, sin usar comandos ni frases exactas, para que el chatbot entienda lo que necesito de forma natural.
+HU04 - Recomendaciones según usuarios similares
+Como usuario, quiero recibir recomendaciones basadas en los gustos de otros usuarios con preferencias similares a las mías.
 
-HU06 - Gestión de consultas y estadísticas
-Como administrador, quiero ver un registro de las conversaciones y las preguntas más frecuentes para identificar qué información falta y mejorar el servicio.
+HU05 - Recomendaciones por popularidad
+Como usuario, quiero recibir recomendaciones de canciones populares para conocer contenido que está siendo escuchado por otros usuarios.
 
-HU07 - Actualización de respuestas
-Como administrador, quiero poder agregar o modificar las preguntas y respuestas del chatbot para mantener la información siempre actualizada.
+HU06 - Filtrar y ordenar recomendaciones
+Como usuario, quiero que las recomendaciones puedan filtrarse y ordenarse para recibir resultados más relevantes y evitar canciones que ya escuché.
+
+HU07 - Gestionar catálogo e interacciones
+Como administrador, quiero gestionar el catálogo de canciones y las interacciones de los usuarios para mantener actualizada la información utilizada por el sistema de recomendaciones.
 
 ---
 
@@ -125,7 +130,7 @@ Distribución de tareas
 
 Integrantes y sus responsabilidades más importantes.
 Jeremías González	______________________________
-Tamara Flores	______________________________
+Tamara Flores	Documentación y esqueleto del programa.
 Luis Orlando Cartagena	Tests unitarios.
 Lautaro Pereira Das Neves	______________________________
 Reflexiones del equipo:
@@ -134,19 +139,14 @@ Reflexiones del equipo:
 
 # Desafíos encontrados
 
-Uno de los principales desafíos durante el desarrollo fue
-______________________________________________________________.
+Uno de los principales desafíos durante el desarrollo fue organizar correctamente la estructura del proyecto y distribuir las responsabilidades entre los integrantes del equipo, pero gracias a la estructura formada en Trello y la comunicación se pudo hallar un buen punto medio.
 
-También encontramos dificultades relacionadas con
-______________________________________________________________.
 
-Aprendizajes
+## Aprendizajes
 
-Durante el proyecto aprendimos _____________________________________
-______________________________________________________________.
+Durante el proyecto aprendimos a trabajar de forma colaborativa utilizando Git, GitHub y Trello, además de organizar mejor las tareas y responsabilidades del equipo.
 
-Además, pudimos profundizar nuestros conocimientos sobre
-______________________________________________________________.
+Además, pudimos profundizar nuestros conocimientos sobre programación orientada a objetos, diseño UML, pruebas unitarias y organización de un proyecto en C# y .NET.
 
 ---
 
@@ -170,13 +170,4 @@ UML
 ---
 
 # Estado del proyecto
-
-Componente	Estado
-Historias de usuario	☐ Pendiente / ☐ En progreso / ☐ Terminado
-Tarjetas CRC	☐ Pendiente / ☐ En progreso / ☐ Terminado
-Diagrama UML	☐ Pendiente / ☐ En progreso / ☐ Terminado
-Clases de dominio	☐ Pendiente / ☐ En progreso / ☐ Terminado
-Pruebas unitarias	☐ Pendiente / ☐ En progreso / ☐ Terminado
-Trello	☐ Pendiente / ☐ En progreso / ☐ Terminado
-README	☐ Pendiente / ☐ En progreso / ☐ Terminado
 
