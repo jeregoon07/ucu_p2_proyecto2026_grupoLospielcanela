@@ -7,7 +7,7 @@ namespace Project.Tests
     [TestFixture]
     public class CriterioOrdenTests
     {
-        private class ItemPrueba : IRecomendable
+        private sealed class ItemPrueba : IRecomendable
         {
             public string Id { get; }
             public string Nombre { get; }
