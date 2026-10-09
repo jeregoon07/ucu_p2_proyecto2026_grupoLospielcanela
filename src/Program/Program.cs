@@ -24,12 +24,15 @@ namespace Project
 
         private static async Task MainAsync()
         {
+            // Comentado temporalmente hasta implementar el bot
+            /*
             using (var bot = new BotService())
             {
-            // Token genérico para el código base; el token real estará en tu appsettings local
-            string token = "TOKEN_AQUI"; 
-            await bot.IniciarAsync(token).ConfigureAwait(false);
+                string token = "TOKEN_AQUI"; 
+                await bot.IniciarAsync(token).ConfigureAwait(false);
             }
-        }   
-    }
+            */
+            await Task.CompletedTask;
+        }
+    }   
 }
