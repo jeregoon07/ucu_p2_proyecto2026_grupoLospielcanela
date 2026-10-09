@@ -15,7 +15,7 @@ namespace Project.Tests
 
             public ItemPrueba(string id, string nombre, List<string> atributos)
             {
-                Id = id;
+                Id=id;
                 Nombre = nombre;
                 Atributos = atributos.AsReadOnly();
             }
