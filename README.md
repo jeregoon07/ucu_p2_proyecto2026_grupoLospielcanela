@@ -13,7 +13,7 @@ CHATBOT
 
 - Jeremías González
 - Tamara Flores
-- Luis Orlando Cartagena
+- Luis Orlando Cartagena Da Silva
 - Lautaro Pereira Das Neves
 
 ---
