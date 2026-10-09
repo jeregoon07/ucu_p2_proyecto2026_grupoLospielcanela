@@ -21,7 +21,6 @@ namespace Project
         {
             MainAsync().GetAwaiter().GetResult();
         }
-
         private static async Task MainAsync()
         {
             // Comentado temporalmente hasta implementar el bot
