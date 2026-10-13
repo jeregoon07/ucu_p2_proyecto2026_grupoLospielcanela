@@ -82,7 +82,7 @@ Estas clases permiten desacoplar la lógica interna del sistema de las interface
 
 
 
-![Diagrama UML](diagrama%20UML.png)
+![Diagrama UML](docs/diagrama%20UML.png)
 
 
 ---
@@ -92,7 +92,7 @@ Estas clases permiten desacoplar la lógica interna del sistema de las interface
 Las tarjetas CRC utilizadas para el modelado del dominio se encuentran
 en:
 
-[📄 Ver Tarjetas CRC del Proyecto](Tarjetas%20CRC%20Proyecto.pdf)
+[📄 Ver Tarjetas CRC del Proyecto](docs/Tarjetas%20CRC%20Proyecto.pdf)
 
 
 ---
