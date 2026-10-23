@@ -66,8 +66,12 @@ namespace Project
     /// <summary>
     /// Estrategia de filtrado colaborativo basada en usuarios con gustos afines.
     /// </summary>
+    /// <summary>
+    /// Estrategia de filtrado colaborativo basada en usuarios con gustos afines.
+    /// </summary>
     public class EstrategiaUsuarioSimilares : IEstrategiaRecomendacion
     {
+        public static List<Usuario> TodosLosUsuarios { get; set; } = new List<Usuario>();
         public List<IRecomendable> Recomendar(Usuario usuario, Catalogo catalogo, IRecomendable itemBase = null)
         {
             if (usuario == null || catalogo == null)
@@ -75,10 +79,58 @@ namespace Project
             var idsVistos = usuario.Interacciones != null
                 ? usuario.Interacciones.Where(i => i.Item != null).Select(i => i.Item.Id).ToHashSet()
                 : new HashSet<string>();
-            // Recomienda contenidos del catálogo excluyendo los que el usuario ya consumió
-            return catalogo.ObtenerTodos()
+            // Lógica de usuarios similares
+            var puntajes = new Dictionary<IRecomendable, int>();
+            foreach (var otro in TodosLosUsuarios)
+            {
+                if (otro.Id == usuario.Id || otro.Interacciones == null) continue;
+                var idsOtro = otro.Interacciones.Where(i => i.Item != null).Select(i => i.Item.Id).ToHashSet();
+                int sim = idsVistos.Intersect(idsOtro).Count();
+                if (sim == 0) continue;
+                foreach (var inter in otro.Interacciones)
+                {
+                    if (inter.Item == null || idsVistos.Contains(inter.Item.Id)) continue;
+                    var itemCat = catalogo.BuscarPorId(inter.Item.Id);
+                    if (itemCat != null)
+                    {
+                        if (puntajes.ContainsKey(itemCat)) puntajes[itemCat] += sim;
+                        else puntajes[itemCat] = sim;
+                    }
+                }
+            }
+            if (puntajes.Any())
+                return puntajes.OrderByDescending(x => x.Value).Select(x => x.Key).ToList();
+            return new List<IRecomendable>();
+        }
+    }
+    /// <summary>
+    /// Es para lo de HU9.
+    /// </summary>
+    public class EstrategiaOrdenada : IEstrategiaRecomendacion
+    {
+        // Propiedad estática para definir o cambiar el criterio sin romper la firma de Recomendar
+        public static string CriterioOrden { get; set; } = "Relevancia";
+        public List<IRecomendable> Recomendar(Usuario usuario, Catalogo catalogo, IRecomendable itemBase = null)
+        {
+            if (usuario == null || catalogo == null)
+                return new List<IRecomendable>();
+            var idsVistos = usuario.Interacciones != null
+                ? usuario.Interacciones.Where(i => i.Item != null).Select(i => i.Item.Id).ToHashSet()
+                : new HashSet<string>();
+            var itemsDisponibles = catalogo.ObtenerTodos()
                 .Where(item => !idsVistos.Contains(item.Id))
                 .ToList();
+            // Criterio 1 y 2: Define el criterio y presenta los resultados ordenados
+            // Criterio 3: Cambiar el criterio modifica el orden
+            if (CriterioOrden == "Nombre")
+            {
+                return itemsDisponibles.OrderBy(i => i.Nombre).ToList();
+            }
+            else
+            {
+                // Orden por defecto (Relevancia / ID)
+                return itemsDisponibles.OrderByDescending(i => i.Id).ToList();
+            }
         }
     }
     /// <summary>
