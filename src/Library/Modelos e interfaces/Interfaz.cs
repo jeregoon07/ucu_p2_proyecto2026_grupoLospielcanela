@@ -9,6 +9,6 @@ namespace Project
     {
         string Id { get; }
         string Nombre { get; }
-        IReadOnlyList<string> Atributos { get; }
+        public IReadOnlyList<string> Atributos { get; }
     }
 }
