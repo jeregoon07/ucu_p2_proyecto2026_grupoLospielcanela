@@ -8,9 +8,17 @@ using NUnit.Framework.Constraints;
 using Project;
 namespace Library.Tests
 {
+    /// <summary>
+    /// Clase de prueba unitaria encargada de la Hisotria de Usario 10
+    /// registra la interaccion de un usuario con un Ítem
+    /// </summary>
     [TestFixture]
     public class  HU10Test
     {
+        /// <summary>
+        /// Prueba unitaria que verifica que el sistema registre una interacción
+        /// entre un usuario y un ítem existente
+        /// </summary>
         [Test]
         public void HU10_RegistrarInteraccion()
         {
@@ -42,11 +50,20 @@ namespace Library.Tests
             }
             Assert.IsTrue(seRegistroSinProblemas, "El debería registrar la interacción");
         }
+        /// <summary>
+        /// Clase auxiliar de prueba que implementa la interfaz <see cref="IRecomendable"/>
+        /// Para simular ítems del catálogo durante la prueba de interacciones
+        /// </summary>
         public class ItemPrueba: IRecomendable
         {
             public string Id{get;set;}
             public string Nombre{get;set;}
             public IReadOnlyList<string> Atributos { get; set;} = new List<string>();
+            /// <summary>
+            /// Inicializa una nueva instancia de la clase <see cref="ItemPrueba"/>
+            /// </summary>
+            /// <param name="id"></param>
+            /// <param name="nombre"></param>
             public ItemPrueba(string id, string nombre)
             {
                 Id=id;
