@@ -48,6 +48,16 @@ if (item == null)
 throw new InvalidOperationException($"El ítem '{itemId}' no existe en el catálogo.");
             usuario.GuardarContenido(item);
 }
+public List<IRecomendable> ObtenerHistorialConsumidos (string usuarioId)
+        {
+            Usuario usuario = ObtenerUsuario(usuarioId);
+            List<IRecomendable> historialItems = new List<IRecomendable>();
+            foreach(Interaccion interaccion in usuario.ObtenerHistorial())
+            {
+                historialItems.Add(interaccion.Item);
+            }
+            return historialItems;
+        }
 private Usuario ObtenerUsuario(string usuarioId)
 {
 if (!_usuarios.TryGetValue(usuarioId, out var usuario))

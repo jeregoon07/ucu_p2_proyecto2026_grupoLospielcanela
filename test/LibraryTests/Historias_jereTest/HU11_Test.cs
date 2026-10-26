@@ -8,9 +8,17 @@ using NUnit.Framework.Constraints;
 using Project;
 namespace Library.Tests
 {
+    /// <summary>
+    /// Clase de prueba unitaria encargada de la Historia de Usuario 11
+    /// Indica si un contenido le gustó o no al usuario mediante valores numéricos 
+    /// </summary>
     [TestFixture]
     public class HU11Test
     {
+        /// <summary>
+        /// Prueba unitaria que verifica que el sistema permite verificar una interaccion
+        /// con valoración alta indicando que le gusto
+        /// </summary>
         [Test]
         public void IndicarSiMeGusto_HU11()
         {
@@ -35,6 +43,10 @@ namespace Library.Tests
             }
             Assert.IsTrue(seRegistroConExito, "El sistema debe permitir registrar que me gusto");
         }
+        /// <summary>
+        /// Prueba unitaria que verifica que el sistema permita verificar una interacción
+        /// con valoración baja indicando que no le gustó al usuario 
+        /// </summary>
         [Test]
         public void IndicarNoMeGusto_HU11()
         {
@@ -60,11 +72,20 @@ namespace Library.Tests
             }
             Assert.IsTrue(seRegistroConExito, "El sistema debe permitir registrar que no me gusto");
         }
+        /// <summary>
+        /// Clase auxiliar de prueba que implementa la interfaz <see cref="IRecomendable"/>
+        /// para simular elementos del catálogo
+        /// </summary>
         public class ItemPrueba: IRecomendable
         {
             public string Id{get;set;}
             public string Nombre{get;set;}
             public IReadOnlyList<string> Atributos { get; set;} = new List<string>();
+            /// <summary>
+            /// Inicializa una nueva instancia de la calse <see cref="ItemPrueba"/>
+            /// </summary>
+            /// <param name="id"></param>
+            /// <param name="nombre"></param>
             public ItemPrueba(string id, string nombre)
             {
                 Id=id;
