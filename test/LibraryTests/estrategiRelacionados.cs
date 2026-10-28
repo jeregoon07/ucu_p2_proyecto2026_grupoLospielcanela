@@ -11,47 +11,43 @@ namespace Library.Tests
     [TestFixture]
     public class EstrategiaRelacionadotest
     {
+        private static readonly string[] AtributoAccion = new[] { "accion" };
+        private static readonly string[] AtributosAccionAventura = new[] { "accion", "aventura" };
+
         [Test]
         public void Constructordevuelvenull()
         {
-            try
-            {
-                var estrategia = new EstrategiaRelacionado(null);
-                Assert.Fail("Se esperaba una ArgumenNullException");
-            }
-            catch (ArgumentNullException)
-            {
-                Assert.Pass();
-            }
+            Assert.Throws<ArgumentNullException>(() => new EstrategiaRelacionado(null));
         }
+
         [Test]
         public void ConstrucorDevuelveValor()
         {
             var itemBase = new ItemFalso
             {
-                Id="1",
-                Atributos= new List<string> {"accion"}
+                Id = "1",
+                Atributos = AtributoAccion
             };
-            var itemSimilar=new ItemFalso
+            var itemSimilar = new ItemFalso
             {
-                Id="2",
-                Atributos= new List<string> {"accion", "aventura"}
+                Id = "2",
+                Atributos = AtributosAccionAventura
             };
-            var catalogo= new Catalogo();
+            var catalogo = new Catalogo();
             catalogo.Agregar(itemSimilar);
-            var estrategia= new EstrategiaRelacionado(itemBase);
+            var estrategia = new EstrategiaRelacionado(itemBase);
             var resultado = estrategia.Recomendar(null, catalogo);
-            Assert.IsNotNull(resultado);
-            Assert.AreEqual(1, resultado.Count);
-            Assert.AreEqual(itemSimilar, resultado[0]);
-
+            
+            Assert.That(resultado, Is.Not.Null);
+            Assert.That(resultado.Count, Is.EqualTo(1));
+            Assert.That(resultado[0], Is.EqualTo(itemSimilar));
         }
-        public class ItemFalso:IRecomendable
+
+        public class ItemFalso : IRecomendable
         {
-            public string Id {get; set;}
-            public string Nombre{get;set;}
-            public IReadOnlyList<string> Atributos{get;set;}
+            public string Id { get; set; }
+            public string Nombre { get; set; }
+            public IReadOnlyList<string> Atributos { get; set; }
         }
     }
 }
-
