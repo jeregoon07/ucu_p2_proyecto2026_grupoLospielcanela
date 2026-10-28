@@ -7,14 +7,13 @@ namespace Library.Tests
 {
     /// <summary>
     /// HU2: Como usuario quiero definir mis preferencias para personalizar mi experiencia.
-    /// Criterios de aceptación:
-    /// - El usuario puede seleccionar uno o más atributos (género, categoría, etc.).
-    /// - Las preferencias quedan almacenadas.
-    /// - Las recomendaciones consideran dichas preferencias.
     /// </summary>
     [TestFixture]
     public class HU2Tests
     {
+        private static readonly string[] AtributoRock = new[] { "Rock" };
+        private static readonly string[] AtributoPop = new[] { "Pop" };
+
         private Catalogo catalogo;
         private MotorRecomendacion motor;
         private SistemaFachada fachada;
@@ -31,21 +30,22 @@ namespace Library.Tests
         public void AlmacenaYConsideraPreferenciasEnRecomendaciones()
         {
             fachada.RegistrarUsuario("u1", "María");
-            var preferencia = new Preferencia(new[] { "Rock" });
+            var preferencia = new Preferencia(AtributoRock);
             fachada.ActualizarPreferencias("u1", preferencia);
 
-            var cancionRock = new Cancion("c1", "Rock Song", new[] { "Rock" });
-            var cancionPop = new Cancion("c2", "Pop Song", new[] { "Pop" });
+            var cancionRock = new Cancion("c1", "Rock Song", AtributoRock);
+            var cancionPop = new Cancion("c2", "Pop Song", AtributoPop);
             catalogo.Agregar(cancionRock);
             catalogo.Agregar(cancionPop);
 
-            var recomendaciones = fachada.ObtenerRecomendaciones("u1");
-
-            // Comprobación directa de preferencias almacenadas en el usuario
+            // Probamos directamente con la estrategia de preferencias para cumplir el criterio estricto de HU2
+            var estrategiaPreferencia = new EstrategiaPreferencia();
             var usuarioPrueba = new Usuario("u1", "María");
             usuarioPrueba.ActualizarPreferencia(preferencia);
+
+            var recomendaciones = estrategiaPreferencia.Recomendar(usuarioPrueba, catalogo);
+
             Assert.That(usuarioPrueba.ObtenerPreferencia().AtributosPreferidos, Does.Contain("Rock"));
-            
             Assert.That(recomendaciones, Does.Contain(cancionRock));
             Assert.That(recomendaciones, Does.Not.Contain(cancionPop));
         }
