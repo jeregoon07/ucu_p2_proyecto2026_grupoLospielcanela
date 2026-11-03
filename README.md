@@ -89,6 +89,7 @@ Estas clases permiten desacoplar la lógica interna del sistema de las interface
 ## Doxyfile
 
 [Ver documentación de Doxygen](https://jeremiasgonzalezaguerre.github.io/ucu_p2_proyecto2026_grupoLospielcanela/docs/doxygen/html/index.html)
+[Ver documentación de Doxygen](https://jeregoon07.github.io/ucu_p2_proyecto2026_grupoLospielcanela/docs/doxygen/html/index.html)
 
 ---
 
