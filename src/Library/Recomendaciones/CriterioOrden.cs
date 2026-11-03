@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Project
 {
+    /// <summary>
+    /// Clase de orden de los objetos, utiliza una lista para ordenar los objetos de la abstracción del ítem
+    /// </summary>
     public class CriterioOrden
     {
         public List<IRecomendable> OrdenarListaFinal(List<IRecomendable> itemsRecomendados)
