@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Project
 {
+    /// <summary>
+    /// Clase encarcgada de filtrar los ítems con las que se haya interactuado
+    /// </summary>
     public class FiltroRecomendacion
     {
         public List<IRecomendable> ExcluirConsumidos(Usuario usuario, List<IRecomendable> recomendaciones)

@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Project{
+    /// <summary>
+    /// Clase que hace andar las recomendaciones
+    /// </summary>
 public class MotorRecomendacion
     {
+
         public List<IRecomendable> Recomendar(Usuario usuario, Catalogo catalogo)
         {
             if (usuario == null) throw new ArgumentNullException(nameof(usuario));

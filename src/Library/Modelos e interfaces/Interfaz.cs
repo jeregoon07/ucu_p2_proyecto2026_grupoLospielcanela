@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Project
 {
+    /// <summary>
+    /// Abstracción para los ítems recomendables
+    /// </summary>
     public interface IRecomendable
     {
         string Id { get; }
