@@ -86,6 +86,12 @@ Estas clases permiten desacoplar la lógica interna del sistema de las interface
 
 
 ---
+## Doxyfile
+
+[Ver documentación de Doxygen](https://jeremiasgonzalezaguerre.github.io/ucu_p2_proyecto2026_grupoLospielcanela/doxygen/html/index.html)
+
+---
+
 
 # Tarjetas CRC
 
