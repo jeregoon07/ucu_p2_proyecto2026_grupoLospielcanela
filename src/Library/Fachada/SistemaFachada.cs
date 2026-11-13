@@ -1,5 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Discord;
+using Discord.WebSocket;
+using Library;
+using System.Linq;
+
 namespace Project
 {
     /// <summary>
@@ -120,5 +125,47 @@ if (!_usuarios.TryGetValue(usuarioId, out var usuario))
 throw new InvalidOperationException($"El usuario '{usuarioId}' no está registrado.");
 return usuario;
 }
+/// <summary>
+/// Devuelve todos los ítems disponibles en el catálogo.
+/// </summary>
+    public IReadOnlyList<IRecomendable> ObtenerCatalogo()
+    {
+        return _catalogo.ObtenerTodos();
+    }
+/// <summary>
+/// Agrega un ítem al catálogo (ej. una Canción).
+/// </summary>
+    public void AgregarItemAlCatalogo(IRecomendable item)
+    {
+        _catalogo.Agregar(item);
+    }
+/// <summary>
+/// Elimina un ítem del catálogo (HU16).
+/// </summary>
+    public void EliminarItemDelCatalogo(string itemId)
+    {
+        _catalogo.Quitar(itemId);
+    }
+/// <summary>
+/// Obtiene los ítems guardados para más tarde de un usuario (HU14).
+/// </summary>
+    public IReadOnlyList<IRecomendable> ObtenerGuardados(string usuarioId)
+        {
+            var usuario = ObtenerUsuario(usuarioId);
+            return usuario.ObtenerGuardadosParaMasTarde();
+        }
+// 1. Para contenido relacionado (HU15)
+    public List<IRecomendable> ObtenerRelacionados(string itemId)
+    {
+        var itemBase = _catalogo.BuscarPorId(itemId);
+        if (itemBase == null)
+            throw new InvalidOperationException($"El ítem '{itemId}' no existe en el catálogo.");
+        // Devuelve otros ítems del catálogo que compartan al menos un atributo con el ítem base
+        return _catalogo.ObtenerTodos()
+            .Where(i => i.Id != itemId && i.Atributos.Any(a => itemBase.Atributos.Contains(a)))
+            .ToList();
+        }
+    }
 }
-}
+
+

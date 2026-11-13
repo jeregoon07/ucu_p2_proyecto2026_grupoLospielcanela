@@ -3,6 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>6</LangVersion>
     <Nullable>disable</Nullable>
+    <UserSecretsId>cf7c319e-a36f-48ad-b2a9-1dd36bcca57b</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -11,11 +12,17 @@
 
   <PropertyGroup>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <OutputType>Exe</OutputType>
     <AnalysisMode>None</AnalysisMode>
     <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="3.20.1" />
+    <PackageReference Include="Discord.Net" Version="3.20.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="11.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
 </Project>
