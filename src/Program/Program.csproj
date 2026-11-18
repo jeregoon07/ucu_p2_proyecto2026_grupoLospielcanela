@@ -3,6 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>6</LangVersion>
     <Nullable>disable</Nullable>
+    <UserSecretsId>2e580de0-6b07-4240-b428-af7fe51341b6</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -11,6 +12,7 @@
 
   <PropertyGroup>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <OutputType>Exe</OutputType>
     <AnalysisMode>None</AnalysisMode>
     <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
   </PropertyGroup>
