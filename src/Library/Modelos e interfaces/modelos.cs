@@ -1,15 +1,10 @@
 using System;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Project
 {
-    
-
 
     public class Catalogo
     {
@@ -18,18 +13,37 @@ namespace Project
         public void Agregar(IRecomendable item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
-            _items[item.Id] = item;
+            if (!IntentarAgregar(item))
+                throw new InvalidOperationException($"El ID '{item.Id}' ya existe en el catálogo.");
         }
 
-        public void Quitar(string id)
+        internal bool IntentarAgregar(IRecomendable item)
         {
-            _items.Remove(id);
+            return _items.TryAdd(NormalizarId(item.Id), item);
+        }
+
+        public bool Quitar(string id)
+        {
+            return _items.Remove(NormalizarId(id));
         }
 
         public IRecomendable BuscarPorId(string id)
         {
-            _items.TryGetValue(id, out var item);
+            _items.TryGetValue(NormalizarId(id), out var item);
             return item;
+        }
+
+        internal static string NormalizarId(string id)
+        {
+            return EsIdPositivo(id, out int numero)
+                ? numero.ToString(CultureInfo.InvariantCulture)
+                : id;
+        }
+
+        public static bool EsIdPositivo(string id, out int numero)
+        {
+            return int.TryParse(id, NumberStyles.Integer, CultureInfo.InvariantCulture, out numero)
+                && numero > 0;
         }
 
         public IReadOnlyList<IRecomendable> ObtenerTodos()
@@ -38,11 +52,6 @@ namespace Project
         }
     }
 
-    
-    /// Registra el consumo de un ítem por parte del usuario y guarda
-    /// la valoración explícita (opcional).
-    /// Colaboradores: Usuario, IRecomendable.
-    
     public class Interaccion
     {
         public Usuario Usuario { get; }
@@ -55,14 +64,14 @@ namespace Project
             Usuario = usuario ?? throw new ArgumentNullException(nameof(usuario));
             Item = item ?? throw new ArgumentNullException(nameof(item));
             Fecha = fecha;
+            if (valoracion is double puntaje &&
+                (!(puntaje >= 1 && puntaje <= 5) || puntaje != Math.Truncate(puntaje)))
+                throw new ArgumentOutOfRangeException(nameof(valoracion), "La valoración debe ser un entero del 1 al 5.");
+
             Valoracion = valoracion;
         }
     }
 
-    
-    /// Representa los atributos de interés del usuario.
-    /// Colaboradores: Usuario, Catalogo.
-    
     public class Preferencia
     {
         public IReadOnlyList<string> AtributosPreferidos { get; }
@@ -78,6 +87,8 @@ namespace Project
         public string Nombre { get; private set; }
         public Preferencia Preferencia => _preferencia;
         public IReadOnlyList<Interaccion> Interacciones => _interacciones.AsReadOnly();
+        internal HashSet<string> AtributosExcluidos { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        internal string CriterioOrden { get; set; } = "score";
         private Preferencia _preferencia;
         private readonly List<Interaccion> _interacciones;
         private readonly List<IRecomendable> _guardadosParaMasTarde;
@@ -92,9 +103,6 @@ namespace Project
             _guardadosParaMasTarde = new List<IRecomendable>();
         }
 
-        
-        /// Valida que los datos básicos de la cuenta sean correctos.
-        
         private void ValidarDatos(string id, string nombre)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -104,9 +112,6 @@ namespace Project
                 throw new ArgumentException("El nombre del usuario no puede estar vacío.", nameof(nombre));
         }
 
-        
-        /// Actualiza las preferencias de contenido del usuario.
-        
         public void ActualizarPreferencia(Preferencia preferencia)
         {
             _preferencia = preferencia ?? throw new ArgumentNullException(nameof(preferencia));
@@ -117,10 +122,6 @@ namespace Project
             return _preferencia;
         }
 
-        
-        /// Registra una nueva interacción (consumo y/o valoración) en el
-        /// historial del usuario.
-        
         public void RegistrarInteraccion(Interaccion interaccion)
         {
             if (interaccion == null)
@@ -134,17 +135,16 @@ namespace Project
             return _interacciones.AsReadOnly();
         }
 
-        
-        /// Agrega un ítem del catálogo a la lista de contenidos guardados
-        /// para ver más tarde.
-        
-        public void GuardarContenido(IRecomendable item)
+        public bool GuardarContenido(IRecomendable item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
 
-            if (!_guardadosParaMasTarde.Contains(item))
-                _guardadosParaMasTarde.Add(item);
+            if (_guardadosParaMasTarde.Contains(item))
+                return false;
+
+            _guardadosParaMasTarde.Add(item);
+            return true;
         }
 
         public IReadOnlyList<IRecomendable> ObtenerGuardadosParaMasTarde()
@@ -160,7 +160,7 @@ namespace Project
 
         public Cancion(string id, string nombre, IEnumerable<string> atributos)
         {
-            Id = id;
+            Id = Catalogo.NormalizarId(id);
             Nombre = nombre;
             Atributos = (atributos ?? Enumerable.Empty<string>()).ToList().AsReadOnly();
         }
