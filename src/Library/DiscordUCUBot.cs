@@ -1,10 +1,10 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Library;
-using Project;
 
 namespace Project
 {
@@ -57,7 +57,7 @@ namespace Project
             string usuarioId = message.Author.Id.ToString();
             string nombreUsuario = message.Author.Username;
             string[] partes = contenido.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
-            string comando = partes[0].ToLower();
+            string comando = partes[0].ToLowerInvariant();
             string args = partes.Length > 1 ? partes[1].Trim() : string.Empty;
             try
             {
@@ -81,7 +81,7 @@ namespace Project
                     "• !eliminar <id> - Elimina una cancion del catalogo (HU16)\n" +
                     "• !relacionados <id> - Muestra contenido similar a una cancion (HU15)\n" +
                     "• !excluir <atributo> - Excluye caracteristicas de las recomendaciones (HU8)\n" +
-                    "• !ordenar <criterio> - Cambia el orden de las recomendaciones (HU9)\n"
+                    "• !ordenar <score|nombre> - Cambia el orden de las recomendaciones (HU9)\n"
                     );
                     break;
 
@@ -90,12 +90,16 @@ namespace Project
                     break;
 
                 case "!cargar_demo":
-                    _fachada.AgregarItemAlCatalogo(new Cancion("1", "Love in the Dark", new[] { "pop", "soul", "adele", "balada" }));
-                    _fachada.AgregarItemAlCatalogo(new Cancion("2", "Headlock", new[] { "electronica", "pop", "imogen heap", "indie" }));
-                    _fachada.AgregarItemAlCatalogo(new Cancion("3", "Degenere", new[] { "urbano", "reggaeton", "myke towers", "latino" }));
-                    _fachada.AgregarItemAlCatalogo(new Cancion("4", "Natural", new[] { "rock", "pop rock", "imagine dragons" }));
-                    _fachada.AgregarItemAlCatalogo(new Cancion("5", "Viva la Vida", new[] { "rock", "pop rock", "coldplay", "indie" }));
-                    await message.Channel.SendMessageAsync("Catalogo demo cargado con las 5 canciones (Love in the Dark, Headlock, Degenere, Natural, Viva la Vida). Usa !catalogo para verlas.");
+                    var demo = new[]
+                    {
+                        new Cancion("1", "Love in the Dark", new[] { "pop", "soul", "adele", "balada" }),
+                        new Cancion("2", "Headlock", new[] { "electronica", "pop", "imogen heap", "indie" }),
+                        new Cancion("3", "Degenere", new[] { "urbano", "reggaeton", "myke towers", "latino" }),
+                        new Cancion("4", "Natural", new[] { "rock", "pop rock", "imagine dragons" }),
+                        new Cancion("5", "Viva la Vida", new[] { "rock", "pop rock", "coldplay", "indie" })
+                    };
+                    int agregadas = demo.Count(cancion => _fachada.IntentarAgregarItemAlCatalogo(cancion));
+                    await message.Channel.SendMessageAsync($"Se agregaron {agregadas} de las 5 canciones de la demo. Usa !catalogo para ver el catálogo.");
                     break;
 
                 case "!registrar":
@@ -115,42 +119,42 @@ namespace Project
                     break;
 
                 case "!preferencias":
-                    if (string.IsNullOrWhiteSpace(args))
+                    var attrs = args.Split(',')
+                        .Select(a => a.Trim().ToLowerInvariant())
+                        .Where(a => a.Length > 0)
+                        .Distinct()
+                        .ToArray();
+                    if (attrs.Length == 0)
                     {
                         await message.Channel.SendMessageAsync("Uso correcto: !preferencias pop, rock, indie");
                         break;
                     }
-                    var attrs = args.Split(',').Select(a => a.Trim().ToLower()).Where(a => !string.IsNullOrEmpty(a));
                     _fachada.ActualizarPreferencias(usuarioId, new Preferencia(attrs));
                     await message.Channel.SendMessageAsync($"Preferencias actualizadas: {string.Join(", ", attrs)}.");
                     break;
 
                 case "!consumir":
-                    if (string.IsNullOrWhiteSpace(args))
+                    var datosConsumo = args.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+                    if (datosConsumo.Length < 1 || datosConsumo.Length > 2)
                     {
-                        await message.Channel.SendMessageAsync("Uso correcto: !consumir <id> o !consumir <id> <puntaje 1-5>");
+                        await message.Channel.SendMessageAsync("Uso correcto: !consumir <id> [valoración]");
                         break;
                     }
-                    var subArgs = args.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    string itemId = subArgs[0];
-                    double? valoracion = null;
-                    if (subArgs.Length > 1 && double.TryParse(subArgs[1], out double val))
+                    string itemId = ValidarId(datosConsumo[0]);
+                    int? valoracion = null;
+                    if (datosConsumo.Length == 2)
                     {
-                        valoracion = val;
-                    }
-                    if (!int.TryParse(itemId, out int idConsumir) || idConsumir <= 0 || subArgs.Length > 2 || !_fachada.ObtenerCatalogo().Any(c => c.Id == itemId))
-                    {
-                        await message.Channel.SendMessageAsync("Error: el ID debe ser positivo y existir en el catalogo.");
-                        break;
-                    }
-                    if (subArgs.Length > 1 && (!double.TryParse(subArgs[1], out double puntaje) || double.IsNaN(puntaje) || double.IsInfinity(puntaje) || puntaje < 1 || puntaje > 5))
-                    {
-                        await message.Channel.SendMessageAsync("Error: la valoracion debe ser un numero entre 1 y 5.");
-                        break;
+                        if (!int.TryParse(datosConsumo[1], NumberStyles.None, CultureInfo.InvariantCulture, out int puntaje)
+                            || puntaje < 1 || puntaje > 5)
+                        {
+                            await message.Channel.SendMessageAsync("La valoración debe ser un entero del 1 al 5.");
+                            break;
+                        }
+                        valoracion = puntaje;
                     }
                     _fachada.RegistrarInteraccion(usuarioId, itemId, valoracion);
-                    string txtVal = valoracion.HasValue ? $" con valoracion {valoracion}/5" : "";
-                    await message.Channel.SendMessageAsync($"Interaccion registrada para el item {itemId}{txtVal}.");
+                    string detalle = valoracion.HasValue ? $" con valoración {valoracion}/5" : "";
+                    await message.Channel.SendMessageAsync($"Consumo registrado para el ítem {itemId}{detalle}.");
                     break;
 
                 case "!recomendar":
@@ -176,18 +180,11 @@ namespace Project
                     break;
 
                 case "!guardar":
-                    if (string.IsNullOrWhiteSpace(args))
-                    {
-                        await message.Channel.SendMessageAsync("Uso correcto: !guardar <id>");
-                        break;
-                    }
-                    if (!int.TryParse(args, out int idGuardar) || idGuardar <= 0 || !_fachada.ObtenerCatalogo().Any(c => c.Id == args))
-                    {
-                        await message.Channel.SendMessageAsync("Error: el ID debe ser positivo y existir en el catalogo.");
-                        break;
-                    }
-                    _fachada.GuardarParaMasTarde(usuarioId, args);
-                    await message.Channel.SendMessageAsync($"Item {args} guardado en tu lista para mas tarde.");
+                    string idGuardar = ValidarId(args);
+                    bool guardado = _fachada.GuardarParaMasTarde(usuarioId, idGuardar);
+                    await message.Channel.SendMessageAsync(guardado
+                        ? $"Ítem {idGuardar} guardado para más tarde."
+                        : $"El ítem {idGuardar} ya estaba guardado.");
                     break;
 
                 case "!guardados":
@@ -203,50 +200,34 @@ namespace Project
 
                 case "!agregar":
                     var datosItem = args.Split('|');
-                    if (datosItem.Length < 3)
+                    if (datosItem.Length != 3)
                     {
                         await message.Channel.SendMessageAsync("Uso correcto: !agregar <id> | <nombre> | <atributo1, atributo2>");
                         break;
                     }
-                    string nuevoId = datosItem[0].Trim();
+                    string nuevoId = ValidarId(datosItem[0]);
                     string nuevoNombre = datosItem[1].Trim();
-                    var nuevosAttrs = datosItem[2].Split(',').Select(a => a.Trim().ToLower());
-                    if (!int.TryParse(nuevoId, out int idAgregar) || idAgregar <= 0 || string.IsNullOrWhiteSpace(nuevoNombre) || !nuevosAttrs.Any(a => !string.IsNullOrWhiteSpace(a)) || _fachada.ObtenerCatalogo().Any(c => c.Id == nuevoId))
+                    var nuevosAttrs = datosItem[2].Split(',')
+                        .Select(a => a.Trim().ToLowerInvariant())
+                        .Distinct()
+                        .ToArray();
+                    if (nuevoNombre.Length == 0 || nuevosAttrs.Any(a => a.Length == 0))
                     {
-                        await message.Channel.SendMessageAsync("Error: usa un ID positivo no repetido, un nombre y atributos validos.");
+                        await message.Channel.SendMessageAsync("Ingresá un nombre y completá todos los atributos separados por comas.");
                         break;
                     }
                     _fachada.AgregarItemAlCatalogo(new Cancion(nuevoId, nuevoNombre, nuevosAttrs));
-                    await message.Channel.SendMessageAsync($"Cancion {nuevoNombre} agregada al catalogo con ID {nuevoId}.");
+                    await message.Channel.SendMessageAsync($"Canción {nuevoNombre} agregada al catálogo con ID {nuevoId}.");
                     break;
 
                 case "!eliminar":
-                    if (string.IsNullOrWhiteSpace(args))
-                    {
-                        await message.Channel.SendMessageAsync("Uso correcto: !eliminar <id>");
-                        break;
-                    }
-                    if (!int.TryParse(args, out int idEliminar) || idEliminar <= 0 || !_fachada.ObtenerCatalogo().Any(c => c.Id == args))
-                    {
-                        await message.Channel.SendMessageAsync("Error: el ID debe ser positivo y existir en el catalogo.");
-                        break;
-                    }
-                    _fachada.EliminarItemDelCatalogo(args);
-                    await message.Channel.SendMessageAsync($"Item {args} eliminado del catalogo.");
+                    string idEliminar = ValidarId(args);
+                    _fachada.EliminarItemDelCatalogo(idEliminar);
+                    await message.Channel.SendMessageAsync($"Ítem {idEliminar} eliminado del catálogo. Las entradas anteriores se conservan en el historial y los guardados.");
                     break;
 
                 case "!relacionados":
-                    if (string.IsNullOrWhiteSpace(args))
-                    {
-                        await message.Channel.SendMessageAsync("Uso correcto: !relacionados <id>");
-                        break;
-                    }
-                    if (!int.TryParse(args, out int idRelacionados) || idRelacionados <= 0 || !_fachada.ObtenerCatalogo().Any(c => c.Id == args))
-                    {
-                        await message.Channel.SendMessageAsync("Error: el ID debe ser positivo y existir en el catalogo.");
-                        break;
-                    }
-                    var relacionados = _fachada.ObtenerRelacionados(args);
+                    var relacionados = _fachada.ObtenerRelacionados(ValidarId(args));
                     if (!relacionados.Any())
                     {
                         await message.Channel.SendMessageAsync("No se encontraron elementos relacionados a ese ID.");
@@ -257,22 +238,15 @@ namespace Project
                     break;
 
                 case "!excluir":
-                    if (string.IsNullOrWhiteSpace(args))
-                    {
-                        await message.Channel.SendMessageAsync("Uso correcto: !excluir <atributo>");
-                        break;
-                    }
-                    await message.Channel.SendMessageAsync($"Filtro de exclusion aplicado para: {args}. Las recomendaciones futuras lo ignoraran.");
+                    _fachada.ExcluirAtributo(usuarioId, args);
+                    await message.Channel.SendMessageAsync($"Atributo excluido de tus recomendaciones: {args.ToLowerInvariant()}.");
                     break;
 
                 case "!ordenar":
-                    if (string.IsNullOrWhiteSpace(args))
-                    {
-                        await message.Channel.SendMessageAsync("Uso correcto: !ordenar <criterio> (ej: score, nombre)");
-                        break;
-                    }
-                    await message.Channel.SendMessageAsync($"Criterio de orden actualizado a: {args}.");
+                    _fachada.CambiarOrden(usuarioId, args);
+                    await message.Channel.SendMessageAsync($"Criterio de orden actualizado a {args.ToLowerInvariant()}.");
                     break;
+
                 }
             }
 
@@ -286,6 +260,14 @@ namespace Project
                 Console.WriteLine($"Error inesperado: {ex}");
                 await message.Channel.SendMessageAsync("Ocurrio un error al procesar el comando.");
             }
+        }
+
+        private static string ValidarId(string texto)
+        {
+            if (!Catalogo.EsIdPositivo(texto, out int id))
+                throw new InvalidOperationException("El ID debe ser un número entero positivo.");
+
+            return id.ToString(CultureInfo.InvariantCulture);
         }
 
         public void Dispose()
