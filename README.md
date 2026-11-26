@@ -134,12 +134,16 @@ Responsable.
 Fecha prevista de finalización.
 Distribución de tareas
 
-Integrantes y sus responsabilidades más importantes.
-Jeremías González	______________________________
-Tamara Flores	Documentación y esqueleto del programa.
-Luis Orlando Cartagena	Tests unitarios.
-Lautaro Pereira Das Neves	______________________________
+
 Reflexiones del equipo:
+Este proyecto nos permitió pasar de la teoría de Programación II a aplicarla a un sistema completo: un motor de recomendación de canciones con un bot de Discord como interfaz. Lo más valioso fue ver cómo las decisiones de diseño del principio condicionaron todo lo que que vino después.
+
+**Trabajo en equipo** Trello, Git y GitHub nos dieron un orden común para dividir tareas y seguir el avance. Las dificultades más grandes fueron en coordinar los cambios en paralelo y mantener criterios uniformes de nombres y estructura entre cuatro personas. Resolverlas con comunicación constante y revisiones nos enseñó que organizar bien el trabajo es tan importante como programar
+
+**Mejoras hacia el futuro** Agregaríamos persistencia de datos para que el catñalogo y el historial no s epiersan al reiniciar el bot, y ampliaríamos las estrategias con mñetricas mñas ricas, como género, artista o escichas recientes.
+
+
+
 
 --- 
 
@@ -156,12 +160,7 @@ Además, pudimos profundizar nuestros conocimientos sobre programación orientad
 
 ---
 
-# Recursos utilizados
 
-Para resolver los diferentes desafíos utilizamos los siguientes
-recursos:
-
-## Otras observaciones
 
 ## Tecnologías utilizadas
 
@@ -175,5 +174,5 @@ UML
 
 ---
 
-# Estado del proyecto
+
 
