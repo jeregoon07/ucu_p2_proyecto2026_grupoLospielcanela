@@ -8,14 +8,10 @@ using Library;
 
 namespace Project
 {
-
     public class DiscordUCUBot : IDisposable
     {
-
         private DiscordSocketClient _client;
-
         private SistemaFachada _fachada;
-
         public DiscordUCUBot()
         {
             var catalogo = new Catalogo();
@@ -36,19 +32,16 @@ namespace Project
             await _client.StartAsync();
             await Task.Delay(-1);
         }
-
         private Task LogAsync(LogMessage log)
         {
             Console.WriteLine(log.ToString());
             return Task.CompletedTask;
         }
-
         private Task ReadyAsync()
         {
             Console.WriteLine($"{_client.CurrentUser} está conectado y listo en Discord.");
             return Task.CompletedTask;
         }
-
         private async Task MessageReceivedAsync(SocketMessage message)
         {
             if (message.Author.Id == _client.CurrentUser.Id) return;
@@ -63,12 +56,11 @@ namespace Project
             {
                 switch (comando)
                 {
-
                 case "!ayuda":
                     await message.Channel.SendMessageAsync(
                     "Comandos disponibles:\n" +
                     "• !unirse - Saluda y prueba la fachada\n" +
-                    "• !cargar_demo - Carga 5 canciones de prueba\n" +
+                    "• !cargar_demo - Carga 20 canciones de prueba\n" +
                     "• !registrar - Crea tu cuenta en el sistema (HU1)\n" +
                     "• !catalogo - Muestra las canciones disponibles\n" +
                     "• !preferencias pop, rock - Define tus gustos (HU2)\n" +
@@ -84,11 +76,9 @@ namespace Project
                     "• !ordenar <score|nombre> - Cambia el orden de las recomendaciones (HU9)\n"
                     );
                     break;
-
                 case "!unirse":
                     await message.Channel.SendMessageAsync($"Hola {nombreUsuario}! Te has comunicado con la fachada del proyecto.");
                     break;
-
                 case "!cargar_demo":
                     var demo = new[]
                     {
@@ -96,17 +86,30 @@ namespace Project
                         new Cancion("2", "Headlock", new[] { "electronica", "pop", "imogen heap", "indie" }),
                         new Cancion("3", "Degenere", new[] { "urbano", "reggaeton", "myke towers", "latino" }),
                         new Cancion("4", "Natural", new[] { "rock", "pop rock", "imagine dragons" }),
-                        new Cancion("5", "Viva la Vida", new[] { "rock", "pop rock", "coldplay", "indie" })
+                        new Cancion("5", "Viva la Vida", new[] { "rock", "pop rock", "coldplay", "indie" }),
+                        new Cancion("6", "Wonderwall", new[] { "rock", "britpop", "oasis", "90s" }),
+                        new Cancion("7", "Die With A Smile", new[] { "pop", "balada", "soul", "dueto" }),
+                        new Cancion("8", "Eres", new[] { "rock", "latino", "pop", "alternativo" }),
+                        new Cancion("9", "Golden Hour", new[] { "pop", "indie", "balada", "piano" }),
+                        new Cancion("10", "From The Start", new[] { "jazz", "pop", "bossa nova", "indie" }),
+                        new Cancion("11", "Brillas", new[] { "latino", "indie", "alternativo", "electronica" }),
+                        new Cancion("12", "Daylight", new[] { "pop", "pop rock", "romance", "acustico" }),
+                        new Cancion("13", "Universos Paralelos", new[] { "latino", "hip hop", "alternativo", "fusion" }),
+                        new Cancion("14", "Don't Look Back in Anger", new[] { "rock", "britpop", "oasis", "90s" }),
+                        new Cancion("15", "Te Regalo", new[] { "indie", "balada", "folk", "acustico" }),
+                        new Cancion("16", "Sparkle", new[] { "j-rock", "balada", "piano", "cinematico" }),
+                        new Cancion("17", "Yellow", new[] { "rock", "pop rock", "coldplay", "alternativo" }),
+                        new Cancion("18", "Dakiti", new[] { "urbano", "reggaeton", "latino", "electronica" }),
+                        new Cancion("19", "Tu Jardin con Enanitos", new[] { "pop", "latino", "acustico", "romance" }),
+                        new Cancion("20", "Sukidakara", new[] { "j-pop", "balada", "acustico", "romance" }),
                     };
                     int agregadas = demo.Count(cancion => _fachada.IntentarAgregarItemAlCatalogo(cancion));
-                    await message.Channel.SendMessageAsync($"Se agregaron {agregadas} de las 5 canciones de la demo. Usa !catalogo para ver el catálogo.");
+                    await message.Channel.SendMessageAsync($"Se agregaron {agregadas} de las 20 canciones de la demo. Usa !catalogo para ver el catálogo.");
                     break;
-
                 case "!registrar":
                     _fachada.RegistrarUsuario(usuarioId, nombreUsuario);
                     await message.Channel.SendMessageAsync($"Bienvenido {nombreUsuario}! Tu cuenta quedo registrada.");
                     break;
-
                 case "!catalogo":
                     var items = _fachada.ObtenerCatalogo();
                     if (!items.Any())
@@ -117,7 +120,6 @@ namespace Project
                     var listaCat = items.Select(i => $"• [{i.Id}] {i.Nombre} ({string.Join(", ", i.Atributos)})");
                     await message.Channel.SendMessageAsync("Catalogo disponible:\n" + string.Join("\n", listaCat));
                     break;
-
                 case "!preferencias":
                     var attrs = args.Split(',')
                         .Select(a => a.Trim().ToLowerInvariant())
@@ -132,7 +134,6 @@ namespace Project
                     _fachada.ActualizarPreferencias(usuarioId, new Preferencia(attrs));
                     await message.Channel.SendMessageAsync($"Preferencias actualizadas: {string.Join(", ", attrs)}.");
                     break;
-
                 case "!consumir":
                     var datosConsumo = args.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
                     if (datosConsumo.Length < 1 || datosConsumo.Length > 2)
@@ -156,7 +157,6 @@ namespace Project
                     string detalle = valoracion.HasValue ? $" con valoración {valoracion}/5" : "";
                     await message.Channel.SendMessageAsync($"Consumo registrado para el ítem {itemId}{detalle}.");
                     break;
-
                 case "!recomendar":
                     var recs = _fachada.ObtenerRecomendaciones(usuarioId);
                     if (recs == null || !recs.Any())
@@ -167,7 +167,6 @@ namespace Project
                     var listaRecs = recs.Select((r, idx) => $"{idx + 1}. [{r.Id}] {r.Nombre} ({string.Join(", ", r.Atributos)})");
                     await message.Channel.SendMessageAsync("Recomendaciones para vos:\n" + string.Join("\n", listaRecs));
                     break;
-
                 case "!historial":
                     var historial = _fachada.ObtenerHistorialConsumidos(usuarioId);
                     if (!historial.Any())
@@ -178,15 +177,18 @@ namespace Project
                     var listaHist = historial.Select(h => $"• [{h.Id}] {h.Nombre}");
                     await message.Channel.SendMessageAsync("Tu historial de consumo:\n" + string.Join("\n", listaHist));
                     break;
-
                 case "!guardar":
+                    if (string.IsNullOrWhiteSpace(args))
+                    {
+                        await message.Channel.SendMessageAsync("Uso correcto: !guardar <id>");
+                        break;
+                    }
                     string idGuardar = ValidarId(args);
                     bool guardado = _fachada.GuardarParaMasTarde(usuarioId, idGuardar);
                     await message.Channel.SendMessageAsync(guardado
                         ? $"Ítem {idGuardar} guardado para más tarde."
                         : $"El ítem {idGuardar} ya estaba guardado.");
                     break;
-
                 case "!guardados":
                     var guardados = _fachada.ObtenerGuardados(usuarioId);
                     if (!guardados.Any())
@@ -197,7 +199,6 @@ namespace Project
                     var listaGuard = guardados.Select(g => $"• [{g.Id}] {g.Nombre} ({string.Join(", ", g.Atributos)})");
                     await message.Channel.SendMessageAsync("Guardados para mas tarde:\n" + string.Join("\n", listaGuard));
                     break;
-
                 case "!agregar":
                     var datosItem = args.Split('|');
                     if (datosItem.Length != 3)
@@ -219,14 +220,22 @@ namespace Project
                     _fachada.AgregarItemAlCatalogo(new Cancion(nuevoId, nuevoNombre, nuevosAttrs));
                     await message.Channel.SendMessageAsync($"Canción {nuevoNombre} agregada al catálogo con ID {nuevoId}.");
                     break;
-
                 case "!eliminar":
+                    if (string.IsNullOrWhiteSpace(args))
+                    {
+                        await message.Channel.SendMessageAsync("Uso correcto: !eliminar <id>");
+                        break;
+                    }
                     string idEliminar = ValidarId(args);
                     _fachada.EliminarItemDelCatalogo(idEliminar);
                     await message.Channel.SendMessageAsync($"Ítem {idEliminar} eliminado del catálogo. Las entradas anteriores se conservan en el historial y los guardados.");
                     break;
-
                 case "!relacionados":
+                    if (string.IsNullOrWhiteSpace(args))
+                    {
+                        await message.Channel.SendMessageAsync("Uso correcto: !relacionados <id>");
+                        break;
+                    }
                     var relacionados = _fachada.ObtenerRelacionados(ValidarId(args));
                     if (!relacionados.Any())
                     {
@@ -236,40 +245,44 @@ namespace Project
                     var listaRel = relacionados.Select((r, idx) => $"{idx + 1}. [{r.Id}] {r.Nombre} ({string.Join(", ", r.Atributos)})");
                     await message.Channel.SendMessageAsync("Contenido relacionado:\n" + string.Join("\n", listaRel));
                     break;
-
                 case "!excluir":
-                    _fachada.ExcluirAtributo(usuarioId, args);
-                    await message.Channel.SendMessageAsync($"Atributo excluido de tus recomendaciones: {args.ToLowerInvariant()}.");
+                    string atributoExcluir = args.Trim().ToLowerInvariant();
+                    if (string.IsNullOrWhiteSpace(atributoExcluir) || atributoExcluir.Contains(' '))
+                    {
+                        await message.Channel.SendMessageAsync("Uso correcto: !excluir <atributo> (sin espacios, ej. !excluir balada)");
+                        break;
+                    }
+                    _fachada.ExcluirAtributo(usuarioId, atributoExcluir);
+                    await message.Channel.SendMessageAsync($"Atributo excluido de tus recomendaciones: {atributoExcluir}.");
                     break;
-
                 case "!ordenar":
-                    _fachada.CambiarOrden(usuarioId, args);
-                    await message.Channel.SendMessageAsync($"Criterio de orden actualizado a {args.ToLowerInvariant()}.");
+                    string criterio = args.Trim().ToLowerInvariant();
+                    if (criterio != "score" && criterio != "nombre")
+                    {
+                        await message.Channel.SendMessageAsync("Uso correcto: !ordenar <score|nombre>");
+                        break;
+                    }
+                    _fachada.CambiarOrden(usuarioId, criterio);
+                    await message.Channel.SendMessageAsync($"Criterio de orden actualizado a {criterio}.");
                     break;
-
                 }
             }
-
-            catch (InvalidOperationException ex)
+            catch (Exception ex) when (ex is InvalidOperationException || ex is ArgumentException)
             {
                 await message.Channel.SendMessageAsync($"Error: {ex.Message}");
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine($"Error inesperado: {ex}");
                 await message.Channel.SendMessageAsync("Ocurrio un error al procesar el comando.");
             }
         }
-
         private static string ValidarId(string texto)
         {
             if (!Catalogo.EsIdPositivo(texto, out int id))
                 throw new InvalidOperationException("El ID debe ser un número entero positivo.");
-
             return id.ToString(CultureInfo.InvariantCulture);
         }
-
         public void Dispose()
         {
             _client?.Dispose();
