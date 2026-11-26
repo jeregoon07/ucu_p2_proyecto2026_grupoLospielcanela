@@ -135,12 +135,31 @@ Fecha prevista de finalización.
 Distribución de tareas
 
 
-Reflexiones del equipo:
-Este proyecto nos permitió pasar de la teoría de Programación II a aplicarla a un sistema completo: un motor de recomendación de canciones con un bot de Discord como interfaz. Lo más valioso fue ver cómo las decisiones de diseño del principio condicionaron todo lo que que vino después.
+## Reflexiones del equipo
 
-**Trabajo en equipo** Trello, Git y GitHub nos dieron un orden común para dividir tareas y seguir el avance. Las dificultades más grandes fueron en coordinar los cambios en paralelo y mantener criterios uniformes de nombres y estructura entre cuatro personas. Resolverlas con comunicación constante y revisiones nos enseñó que organizar bien el trabajo es tan importante como programar
+Este proyecto nos permitió pasar de la teoría de Programación II a aplicarla en un
+sistema completo: un motor de recomendación de canciones con un bot de Discord como
+interfaz. Lo más valioso fue ver cómo las decisiones de diseño del principio
+condicionaron todo lo que vino después.
 
-**Mejoras hacia el futuro** Agregaríamos persistencia de datos para que el catñalogo y el historial no s epiersan al reiniciar el bot, y ampliaríamos las estrategias con mñetricas mñas ricas, como género, artista o escichas recientes.
+**Diseño:** aplicamos el patrón *Strategy* para las recomendaciones, de modo que cada
+criterio (preferencias, historial, usuarios similares, popularidad y relacionados) es
+una estrategia intercambiable. También usamos `SistemaFachada` como punto de entrada
+único, lo que desacopló la lógica del bot de Discord y de las pruebas.
+
+**Calidad:** escribimos pruebas unitarias por historia de usuario y configuramos
+GitHub Actions para compilar, testear y generar la documentación con Doxygen en cada
+cambio.
+
+**Trabajo en equipo:** Trello, Git y GitHub nos dieron un orden común para dividir
+tareas y seguir el avance. Las mayores dificultades fueron coordinar los cambios en
+paralelo y mantener criterios uniformes de nombres y estructura entre cuatro personas.
+Resolverlas con comunicación constante y revisiones nos enseñó que organizar bien el
+trabajo es tan importante como programar.
+
+**Mejoras a futuro:** agregaríamos persistencia de datos para que el catálogo y el
+historial no se pierdan al reiniciar el bot, y ampliaríamos las estrategias con
+métricas más ricas, como género, artista o escuchas recientes.
 
 
 
